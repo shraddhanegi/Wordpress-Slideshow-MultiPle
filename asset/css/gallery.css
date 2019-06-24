@@ -1,0 +1,26 @@
+.sortable_wordpress_gallery li.attachment {
+	width:  150px;
+	height: 150px;
+}
+.sortable_wordpress_gallery {
+	display: block;
+}
+.sortable_wordpress_gallery:after {
+	display: table;
+	content: '';
+	clear: both;
+}
+#rtgallery .to-copy { display: none; }
+
+#rtgallery .of-repeat-group {
+overflow: hidden;
+margin-bottom: 1.4em;
+padding:1rem;
+}
+#rtgallery .of-repeat-group .of-input {
+width: 80%;
+}
+
+#rtgallery .of-repeat-group .dodelete {
+float: right;
+}

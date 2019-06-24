@@ -1,0 +1,12 @@
+/*====Adding lazy load on slideshow images================*/
+.flexslider .slides img.lazy {
+	width: 700px;
+	height: 467px;
+	display: block;
+	display: block;
+
+	/* optional way, set loading as background */
+	background-image: url('image/loading.gif');
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}
