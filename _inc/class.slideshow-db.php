@@ -84,9 +84,8 @@ class Slideshow_DB
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . "gallery";
-		if( $_POST['action'] !== 'add_new_gallery')
-			return;
-
+		if( isset($_POST['action']) && $_POST['action'] == 'add_new_gallery')
+		{
 			$rtObject = $wpdb->get_row("select MAX( gallery_id ) + 1 as newGalleryID  from $table_name");
 			$newGalleryID = $rtObject->newGalleryID;
 			$shortcode = "[slideshow id='".$newGalleryID."']";
@@ -101,6 +100,7 @@ class Slideshow_DB
 				$newGalleryID = 0;
 			}
 			echo $newGalleryID; die;
+		}
 	}
 
     /**
@@ -112,17 +112,18 @@ class Slideshow_DB
     {
         global $wpdb;
 		$table_name = $wpdb->prefix . "gallery";
-		if( $_POST['action'] !== 'save_gallery')
-			return;
-		//check_ajax_referer( 'rt-camp-slideshow', 'security' );
-		$imageID = $_POST['imageID'];   //get image id from ajax post data
-		$galleryID = $_POST['galleryID']; //get gallery id ajax post data
-		$galleryTitle = $_POST['galleryTitle'];
+		if( isset($_POST['action']) && $_POST['action'] == 'save_gallery')
+		{
+			//check_ajax_referer( 'rt-camp-slideshow', 'security' );
+		$imageID = (isset($_POST['imageID'])?$_POST['imageID'] : '');   //get image id from ajax post data
+		$galleryID = (isset($_POST['galleryID'])?$_POST['galleryID'] : ''); //get gallery id ajax post data
+		$galleryTitle = (isset($_POST['galleryTitle'])?$_POST['galleryTitle'] : '');
 		//case : update gallery
         if (isset($galleryID)) {
 			//fetch gallery_id from gallery table
             $results = $wpdb->get_results("select gallery_id from $table_name where gallery_id = $galleryID");
-            foreach ($results as $res) {
+//print_r($results);
+			foreach ($results as $res) {
 				$resGalleryId = $res->gallery_id; //get imageid from gallery table
             }
 			//check if already exisited in gallery table and galleryid is same than  update imageIDS
@@ -140,7 +141,7 @@ class Slideshow_DB
 
 			}
 
-            if ($success >0 ) {
+            if (isset($success) && $success >0 ) {
                 $success = 'success';
 
             } else {
@@ -150,6 +151,8 @@ class Slideshow_DB
             echo $success; wp_die();
         }
 
+		}
+
 	}
 	/**
 	 * Delete gallery from slideshow section
@@ -158,25 +161,26 @@ class Slideshow_DB
 
 	 public static function delete_gallery(){
 		global $wpdb;
-		if( $_POST['action'] !== 'delete_gallery')
-			return;
-		$table_name = $wpdb->prefix . "gallery";
-	 	 $galleryID = $_POST["galleryID"]; //get gallery id ajax post data
-		//case delete gallery
-		if (isset($galleryID)) {
-			//delete row releted to gallery_id from gallery table
-			$results = $wpdb->delete( $table_name , array('gallery_id' => $galleryID), array( '%d' ) );
-			if ($results >0 ) {
-				$success = 'success';
+		if( isset($_POST['action']) && $_POST['action'] == 'delete_gallery')
+		{
+			$table_name = $wpdb->prefix . "gallery";
+			$galleryID = $_POST["galleryID"]; //get gallery id ajax post data
+		  //case delete gallery
+		  if (isset($galleryID)) {
+			  //delete row releted to gallery_id from gallery table
+			  $results = $wpdb->delete( $table_name , array('gallery_id' => $galleryID), array( '%d' ) );
+			  if ($results >0 ) {
+				  $success = 'success';
 
-			} else {
-				$success = 'failed';
+			  } else {
+				  $success = 'failed';
 
-			}
-			echo $success;
-			wp_die();
+			  }
+			  echo $success;
+			  wp_die();
 
-		}
+		  }
+  }
 
 	 }
 }

@@ -62,6 +62,8 @@ class Slideshow_Shortcode
 	 *
 	 * @return string
 	 */
+
+
 	public function wss_shortcode_list_ajax() {
 		// check for nonce
 		//check_ajax_referer( 'wss-nonce', 'security' );

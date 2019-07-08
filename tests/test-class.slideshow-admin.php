@@ -19,12 +19,25 @@ class Test_Slideshow_Admin extends WP_UnitTestCase
         //has_theme_support('post-thumbnails');
         $test_load_textdomain = has_action('admin_init', array( 'Slideshow_Admin', 'load_textdomain' ));
         $test_load_menu = has_action('admin_menu', array( 'Slideshow_Admin', 'load_menu' ));
-        $test_load_resources = has_action('admin_enqueue_scripts', array( 'Slideshow_Admin', 'load_resources' ));
-		$test_save_gallery_images_ajax = has_action('wp_ajax_save_gallery_images', array( 'Slideshow_Admin', 'save_gallery_images' ));
-		$test_init_hook = ($test_load_textdomain === 10 && $test_load_menu && $test_load_resources &&  $test_save_gallery_images_ajax );
+		$test_load_resources = has_action('admin_enqueue_scripts', array( 'Slideshow_Admin', 'load_resources' ));
+		$test_init_hook = ($test_load_textdomain === 10 && $test_load_menu && $test_load_resources);
 		$this->assertTrue( $test_init_hook );
 	  }
+	  /**
+	 * Function to load the text domain
+	 *
+	 * @return void
+	 */
+	public static function load_textdomain()
+	{
 
+		echo $load_domain = load_plugin_textdomain('wordpress-slideshow');
+	}
+	/**
+	 *  function to load slideshpow menu
+	 *
+	 * @return void
+	 */
 	public function test_load_menu()
     {
 		Slideshow_Admin::load_menu();
@@ -32,12 +45,13 @@ class Test_Slideshow_Admin extends WP_UnitTestCase
 
 
 	}
+
 	 /**
      * Function to add the images to the gallery
      *
      * @return void
      */
-    public function test_add_new_image()
+    public function test_display_new_gallery()
     {
 		global $wpdb;
 		$test_table_name = $wpdb->prefix . "gallery";
@@ -73,9 +87,10 @@ class Test_Slideshow_Admin extends WP_UnitTestCase
 			}
 
 		set_post_thumbnail( $parent_post_id, $attach_id );
-		$success = $wpdb->insert(
+		$success = $wpdb->update(
 			$test_table_name,
-			array('id'=>'1','image_id' => $attach_id  ),
+			array('image_id' => $attach_id ,'gallery_title' =>'Test Gallery'),
+			array('gallery_id' =>1 ),
 			array('%d','%s')
 		);
 

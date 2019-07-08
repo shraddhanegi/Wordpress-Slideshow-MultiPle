@@ -58,6 +58,9 @@ class Test_Slideshow extends WP_UnitTestCase {
 		//$this->assertEquals( '1.0.0', get_option( 'rt_db_version' ) );
 	}
 
+	/**test for plugin deactivated
+	 *
+	 */
 	public function test_plugin_dectivation()
     {
 
@@ -66,6 +69,11 @@ class Test_Slideshow extends WP_UnitTestCase {
 		 $this->assertFalse( get_option( 'rt_db_version' ) );
 
 	}
+	/**
+	 *  teardown for test
+	 *
+	 * @return void
+	 */
 	public function teardown(){
 		global $wpdb;
 		$table_name = $wpdb->prefix . "gallery";

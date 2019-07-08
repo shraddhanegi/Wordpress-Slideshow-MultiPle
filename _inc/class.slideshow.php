@@ -44,8 +44,8 @@ class Slideshow
 									`gallery_id` int (11) NOT NULL AUTO_INCREMENT,
 									`image_id` varchar(200),
 									`gallery_title` varchar(200),
-									`shrotcode` varchar(200),
-									PRIMARY KEY  (id)
+									`shortcode` varchar(200),
+									PRIMARY KEY  (gallery_id)
 					)    $charset_collate;";
              include_once ABSPATH . 'wp-admin/includes/upgrade.php';
 			$delta = dbDelta($sql);
